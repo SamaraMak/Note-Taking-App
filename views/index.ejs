@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>Notes</title>
+</head>
+
+<body>
+    <script>
+        function search(e) {
+            if(e.keyCode === 13) { // keyCode 13 is the 'Enter' key on the keyboard
+                console.log(document.getElementById('search').value);
+                console.log(notes)
+            }
+        }
+    </script>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">📒 Notes</h1>
+        </div>
+        <div class="container" style="margin-top: 2rem;">
+            <a href="/new" class="btn btn-success float-right">New Note</a>
+            <form action="/notes/search" method="POST">
+                <input type="text" class="form-control" name="search" placeholder="Search by tag..." style="width: 50%;"></input>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <% notes.forEach(note => { %>
+        <div class="card mt-2">
+            <div class="card-body">
+                <h5 class="card-title"><%= note.title %></h5>
+                <p class="card-text">Category: <%= note.category %></p>
+                <p class="text-muted">Date Created: <%= note.createdAt.toLocaleDateString() %></p>
+                <p class="card-text"><%= note.description %></p>
+                <p class="text-muted">Tags: <%= note.tags %></p>
+                
+                <form action="/<%= note._id %>?_method=DELETE" method="POST">
+                    <button
+                        href="#" class="btn btn-danger float-right">Delete
+                    </button>
+                </form>
+                <form action="/edit-note/<%= note._id %>" method="POST">
+                    <button
+                        href="#" class="btn btn-secondary float-right"
+                        style=" margin-right: 0.3rem; background-color: rgb(86, 192, 240); border-color: rgb(86, 192, 240);">Edit
+                    </button>
+                </form>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+</body>
+
+</html>
